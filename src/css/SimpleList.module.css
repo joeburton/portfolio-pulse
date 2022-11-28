@@ -1,0 +1,10 @@
+.simpleList {
+  list-style: none;
+  border: 1px solid #ccc;
+  padding: 10px 0;
+  margin: 0 0 10px 0;
+}
+
+.simpleList li {
+  padding: 2px 0 2px 4px;
+}

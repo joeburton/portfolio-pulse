@@ -1,0 +1,97 @@
+header {
+  background-color: #2f4f4f;
+  height: 70px;
+  border-top: 0;
+  display: block;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2f4f4f;
+  height: 70px;
+  border-top: 0;
+}
+
+header nav {
+  text-align: left;
+  height: 70px;
+}
+
+header nav ul {
+  margin: 26px 0 0 20px;
+  display: inline-block;
+}
+
+header nav li {
+  padding: 0 15px 0 0;
+  margin: 0;
+  display: inline;
+}
+
+header nav li:last-child {
+  padding: 0;
+}
+
+header nav li button {
+  background: none;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  outline: inherit;
+  font-size: 18px;
+  font-size: 1.8rem;
+  line-height: 18px;
+  text-decoration: none;
+  color: #fff;
+  padding: 0;
+}
+
+header nav li button:hover {
+  color: #95c50e;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.logo.spin {
+  text-decoration: none;
+  color: #fff;
+  transform: rotate(360deg);
+}
+
+.logo {
+  outline: none;
+  padding: 11px 0 0 2px;
+  display: inline-block;
+  margin: 10px 20px 0 0;
+  border-radius: 40px;
+  border: 2px solid #ccc;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
+  font-weight: lighter;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.8s;
+}
+
+.logo span {
+  display: none;
+}
+
+.logo:hover {
+  text-decoration: none;
+  color: #fff;
+  transform: rotate(-360deg);
+}
+
+@media screen and (min-width: 992px) {
+  header nav {
+    margin: 0 auto;
+  }
+
+  header nav ul {
+    margin: 26px 0 0 70px;
+  }
+}

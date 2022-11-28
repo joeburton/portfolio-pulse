@@ -1,0 +1,37 @@
+.projects {
+  border-bottom: 1px solid #ccc;
+  background: #f0f0f0;
+  min-height: 100px;
+  padding: 20px;
+}
+
+.projects .content {
+  max-width: 1024px;
+  margin: 0 auto;
+  min-height: 40px;
+}
+
+.projects .content .frame {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  max-width: 1300px;
+  min-height: 100px;
+  margin: 0 auto;
+}
+
+.projects h2 {
+  line-height: 40px;
+  font-size: 30px;
+  font-size: 3rem;
+  text-align: center;
+  padding: 10px 0 20px;
+  color: #95c50e;
+}
+
+.projects ul {
+  font-weight: 300;
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+}

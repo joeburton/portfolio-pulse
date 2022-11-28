@@ -1,0 +1,103 @@
+.manage {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.manage .content {
+  border: solid 1px #ccc;
+  box-shadow: 0 0 10px #ccc;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.manage ul.tabs {
+  padding: 10px 20px 10px 20px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.manage ul.tabs li {
+  text-decoration: underline;
+  padding: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 30px;
+  margin-right: 5px;
+  position: relative;
+  top: 1px;
+}
+
+.manage ul.tabs li:hover {
+  color: blue;
+}
+
+@media screen and (min-width: 500px) {
+  .manage ul.tabs {
+    padding: 20px 20px 0 20px;
+  }
+
+  .manage ul.tabs li {
+    padding: 0px 20px 0 20px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+
+  .manage ul.tabs li.active {
+    border-bottom: 1px solid #fff;
+  }
+}
+
+.manage-items {
+  margin: 20px;
+}
+
+.manage-items h4 {
+  text-align: left;
+  font-weight: 400;
+  padding: 0;
+}
+
+.items-list {
+  margin: 20px;
+}
+
+.items-list ul {
+  margin-top: 15px;
+  font-size: 1.4rem;
+  line-height: 20px;
+  text-align: left;
+  text-decoration: none;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.items-list ul li {
+  padding: 8px;
+  background: rgb(255, 254, 254);
+  border-bottom: 1px solid #ccc;
+}
+
+.items-list ul li:hover {
+  background: rgb(235, 232, 232);
+}
+
+.items-list ul li:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.items-list ul li:last-child {
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+  border-bottom: none;
+}
+
+.items-list h4 {
+  text-align: left;
+  font-weight: 400;
+  padding: 0;
+}

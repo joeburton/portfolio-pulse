@@ -1,0 +1,12 @@
+.footer {
+  background-color: #2f4f4f;
+  border-top: 1px solid #fff;
+  color: #fff;
+}
+
+.footer p {
+  display: inline-block;
+  font-size: 12px;
+  font-size: 1.2rem;
+  padding: 20px 0 20px 20px;
+}

@@ -1,0 +1,27 @@
+.contact {
+  background: #f0f0f0;
+  min-height: 100px;
+  padding: 20px;
+}
+
+.contact .content {
+  max-width: 1024px;
+  margin: 0 auto;
+  min-height: 40px;
+}
+
+.contact .content .frame {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  max-width: 1300px;
+  min-height: 100px;
+  margin: 0 auto;
+}
+
+.contact h2 {
+  font-size: 30px;
+  font-size: 3rem;
+  text-align: center;
+  padding: 10px 0 20px;
+  color: #95c50e;
+}
