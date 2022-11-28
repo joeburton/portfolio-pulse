@@ -19,15 +19,11 @@ const ContentProjects = (props: ContentProjectsProps) => {
 
   const [response, error] = useFetch("/api/source");
 
-  console.log(response, error);
-
   useEffect(() => {
     if (response) {
       dispatch({ type: ACTIONS.UPDATE_ITEMS, payload: response });
     }
   }, [dispatch, ACTIONS, response]);
-
-  console.log(content);
 
   if (!content) {
     return <div />;
