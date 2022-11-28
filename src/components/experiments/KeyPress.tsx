@@ -9,7 +9,7 @@ export const KeyPress = () => {
   const sadPress: boolean = useKeyPress("s");
   const robotPress: boolean = useKeyPress("r");
   const foxPress: boolean = useKeyPress("f");
-  console.log(happyPress);
+  // console.log(happyPress);
   return (
     <div className={styles.keyPress}>
       <div className={styles.keys}>keys: h, s, r, f</div>

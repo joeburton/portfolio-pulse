@@ -1,16 +1,10 @@
-import React from "react";
 import { render } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
-// import userEvent from "@testing-library/user-event";
 
 import { Carousel } from "../experiments/Carousel";
 
 describe("Carousel", () => {
-  it("should render", () => {
-    expect(true).toBeTruthy();
-  });
-  it.skip("should render", () => {
-    const { getByTestId } = render(
+  it("should render the Carousel component with the correct items", () => {
+    const { getByAltText } = render(
       <Carousel
         items={[
           {
@@ -26,6 +20,7 @@ describe("Carousel", () => {
         ]}
       />
     );
-    expect(getByTestId("carousel")).toHaveTextContent("Carousel");
+    expect(getByAltText("item 1")).toBeDefined();
+    expect(getByAltText("item 2")).toBeDefined();
   });
 });

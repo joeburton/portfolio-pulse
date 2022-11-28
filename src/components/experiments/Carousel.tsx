@@ -37,7 +37,7 @@ export const Carousel = ({ items }: CarouselInterface) => {
     setItemPosition((prevState) => prevState + 1);
   };
 
-  console.log("Carousel state update.", itemPosition);
+  // console.log("Carousel state update.", itemPosition);
 
   return (
     <div data-testid="carousel" className={styles.carousel}>

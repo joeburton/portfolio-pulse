@@ -1,6 +1,5 @@
-import React from "react";
-import { render, fireEvent, act, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import { render, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { rest } from "msw";
 import { setupServer } from "msw/node";
@@ -41,42 +40,42 @@ const item = {
   ],
 };
 
-describe.skip("ItemRecord", () => {
+describe("ItemRecord", () => {
   it("should render the component", () => {
-    const { container } = render(<ItemRecord {...item} />);
+    const { findByTestId, getByTestId, getByText } = render(
+      <ItemRecord {...item} />
+    );
 
-    expect(container).toHaveTextContent("gingerblue");
-    expect(container).toHaveTextContent("Delete");
-    expect(container).toHaveTextContent("Edit");
+    findByTestId("item-record");
+
+    expect(getByTestId("item-record")).toHaveTextContent("gingerblue");
+    expect(getByText("Delete")).toBeDefined();
+    expect(getByText("Edit")).toBeDefined();
   });
 
   it("should display the remove item message whilst the item is being deleted", async () => {
-    await act(async () => {
-      const { container, getByText } = render(
-        <AppProvider
-          defaultState={{
-            content: [],
-            items: [item],
-            manageActive: false,
-            itemToEditId: "",
-            userSession: {
-              username: "",
-              loggedIn: false,
-            },
-          }}
-        >
-          <ItemRecord {...item} />
-        </AppProvider>
-      );
+    const { getByText } = render(
+      <AppProvider
+        defaultState={{
+          content: [],
+          items: [item],
+          manageActive: false,
+          itemToEditId: "",
+          userSession: {
+            username: "",
+            loggedIn: false,
+          },
+        }}
+      >
+        <ItemRecord {...item} />
+      </AppProvider>
+    );
 
-      expect(getByText("Removing item")).toHaveClass("hidden");
+    expect(getByText("Removing item")).toHaveClass("hidden");
+    userEvent.click(getByText("Delete"));
 
-      const deleteButton = container.querySelectorAll(".manage-item")[0];
-      fireEvent.click(deleteButton);
-
-      await waitFor(() =>
-        expect(getByText("Removing item")).not.toHaveClass("hidden")
-      );
-    });
+    await waitFor(() =>
+      expect(getByText("Removing item")).not.toHaveClass("hidden")
+    );
   });
 });

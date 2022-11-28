@@ -1,6 +1,4 @@
-import React from "react";
 import { render, act, waitFor, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 

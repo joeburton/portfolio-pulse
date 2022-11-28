@@ -7,10 +7,10 @@ export const useKeyPress = (targetKey: string): boolean => {
 
   // Add event listeners
   useEffect(() => {
-    console.log("useKeyPress");
+    // console.log("useKeyPress");
     // If pressed key is our target key then set to true
     function downHandler({ key }: any): void {
-      console.log("useKeyPress pressed", key);
+      // console.log("useKeyPress pressed", key);
       if (key === targetKey) {
         setKeyPressed(!keyPressed);
       }
@@ -19,7 +19,7 @@ export const useKeyPress = (targetKey: string): boolean => {
     window.addEventListener("keydown", downHandler);
     // Remove event listeners on cleanup
     return () => {
-      console.log("remove events");
+      // console.log("remove events");
       window.removeEventListener("keydown", downHandler);
     };
   }); // Empty array ensures that effect is only run on mount and unmount

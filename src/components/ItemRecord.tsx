@@ -42,7 +42,7 @@ const ItemRecord = (item: ItemInterface) => {
   };
 
   return (
-    <li>
+    <li data-testid="item-record">
       {item.company}
       <span className={styles["manage-item"]} onClick={deleteItem}>
         Delete
