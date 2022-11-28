@@ -15,17 +15,19 @@ const ContentProjects = (props: ContentProjectsProps) => {
   const { content, scrollTo } = props;
   const { state, dispatch, ACTIONS } = useAppContext();
 
-  const items = state.items;
+  const items = state?.items;
 
   const [response, error] = useFetch("/api/source");
 
-  // console.log(response, error);
+  console.log(response, error);
 
   useEffect(() => {
     if (response) {
       dispatch({ type: ACTIONS.UPDATE_ITEMS, payload: response });
     }
   }, [dispatch, ACTIONS, response]);
+
+  console.log(content);
 
   if (!content) {
     return <div />;
@@ -63,6 +65,7 @@ const ContentProjects = (props: ContentProjectsProps) => {
             )}
             <ul>
               {items &&
+                items.length &&
                 items.map((item: ItemInterface, index) => {
                   return <Item key={index} {...item} />;
                 })}

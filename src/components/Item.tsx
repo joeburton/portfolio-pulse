@@ -45,7 +45,7 @@ export const Item = (item: ItemInterface) => {
   }, [item]);
 
   return (
-    <li className={styles.item}>
+    <li className={styles.item} data-testid="project-item">
       {item.logo && (
         <img
           src={process.env.PUBLIC_URL + `../images/${item.logo}`}

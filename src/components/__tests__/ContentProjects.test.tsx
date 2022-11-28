@@ -1,4 +1,4 @@
-import { render, act, waitFor, fireEvent } from "@testing-library/react";
+import { getByAltText, render } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
@@ -56,35 +56,22 @@ const content = {
   },
 };
 
-describe.skip("ContentProjects", () => {
+describe("ContentProjects", () => {
   it("should render the projects list fetched from the server and populate text keys", async () => {
-    await act(async () => {
-      const { container, getByText, queryByTestId } = render(
-        <AppProvider>
-          <ContentProjects content={content} scrollTo={() => {}} />
-        </AppProvider>
-      );
+    const { getByAltText, findAllByTestId, debug } = render(
+      <AppProvider>
+        <ContentProjects content={content} scrollTo={() => {}} />
+      </AppProvider>
+    );
 
-      await waitFor(() => {
-        const contentProjects = queryByTestId("contentProjects") as any;
+    const projectItems = await findAllByTestId("project-item");
 
-        expect(contentProjects.querySelectorAll("li").length).toEqual(2);
-        expect(contentProjects).toBeInTheDocument();
-        expect(getByText("projects title")).toBeInTheDocument();
-        expect(getByText("www.link1.com/power/")).toBeInTheDocument();
-        expect(container.querySelectorAll("img")[0]).toHaveAttribute(
-          "alt",
-          "GE Power Digital 1"
-        );
-        expect(container.querySelectorAll("img")[1]).toHaveAttribute(
-          "alt",
-          "CashFlows"
-        );
-      });
-    });
+    expect(projectItems.length).toEqual(2);
+    expect(projectItems[0]).toHaveTextContent("Senior UI Developer");
+    expect(getByAltText("CashFlows")).toHaveAttribute("alt", "CashFlows");
   });
 
-  it("should toogle open and close the description text", async () => {
+  it.skip("should toogle open and close the description text", async () => {
     await act(async () => {
       const { container, queryByTestId } = render(
         <AppProvider>
@@ -106,7 +93,7 @@ describe.skip("ContentProjects", () => {
     });
   });
 
-  it("should display an error message when the request fails", async () => {
+  it.skip("should display an error message when the request fails", async () => {
     await act(async () => {
       server.use(
         rest.get("/api/source", (_req, res, ctx) => {
