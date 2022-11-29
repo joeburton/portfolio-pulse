@@ -55,6 +55,7 @@ const ContentProjects = (props: ContentProjectsProps) => {
             {error && (
               <h4
                 style={{ margin: "auto 0", textAlign: "center", color: "red" }}
+                data-testid="has-error"
               >
                 {content.errors.serviceError}
               </h4>

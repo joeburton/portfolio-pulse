@@ -1,4 +1,5 @@
-import { getByAltText, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
@@ -71,47 +72,40 @@ describe("ContentProjects", () => {
     expect(getByAltText("CashFlows")).toHaveAttribute("alt", "CashFlows");
   });
 
-  it.skip("should toogle open and close the description text", async () => {
-    await act(async () => {
-      const { container, queryByTestId } = render(
-        <AppProvider>
-          <ContentProjects content={content} scrollTo={() => {}} />
-        </AppProvider>
-      );
+  it("should toogle open and close the description text", async () => {
+    const { queryAllByTestId, findAllByTestId } = render(
+      <AppProvider>
+        <ContentProjects content={content} scrollTo={() => {}} />
+      </AppProvider>
+    );
 
-      await waitFor(() => {
-        const contentProjects = queryByTestId("contentProjects") as any;
-        const detailsContainer = container.querySelector(".details") as any;
-        const openDesc = container.querySelector(".expand") as any;
+    const projectItems = await findAllByTestId("project-item");
 
-        expect(contentProjects.querySelectorAll("li").length).toEqual(2);
-        expect(detailsContainer).toHaveStyle("height: 60px");
+    const toggleDescriptions = queryAllByTestId("expand-description");
+    const descriptions = queryAllByTestId("description");
 
-        fireEvent.click(openDesc);
-        expect(detailsContainer).toHaveStyle("height: 100%");
-      });
-    });
+    expect(projectItems.length).toEqual(2);
+    expect(descriptions[0]).toHaveStyle("height: 60px");
+
+    userEvent.click(toggleDescriptions[0]);
+    expect(descriptions[0]).toHaveStyle("height: 100%");
   });
 
-  it.skip("should display an error message when the request fails", async () => {
-    await act(async () => {
-      server.use(
-        rest.get("/api/source", (_req, res, ctx) => {
-          return res(ctx.status(500));
-        })
-      );
+  it("should display an error message when the request fails", async () => {
+    server.use(
+      rest.get("/api/source", (_req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
 
-      const { queryByTestId } = render(
-        <AppProvider>
-          <ContentProjects content={content} scrollTo={() => {}} />
-        </AppProvider>
-      );
+    const { findByTestId } = render(
+      <AppProvider>
+        <ContentProjects content={content} scrollTo={() => {}} />
+      </AppProvider>
+    );
 
-      await waitFor(() => {
-        const contentProjects = queryByTestId("contentProjects") as any;
-        const error = contentProjects.querySelector("h4");
-        expect(error).toHaveTextContent("Oops it broke");
-      });
-    });
+    const error = await findByTestId("has-error");
+
+    expect(error).toHaveTextContent("Oops it broke");
   });
 });
