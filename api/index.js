@@ -1,24 +1,22 @@
-const app = require("express")();
-const bodyParser = require("body-parser");
+import express from 'express';
+import bodyParser from 'body-parser';
+
+import projects from './projects-data.js';
+
+const app = express();
 app.use(bodyParser.json());
+app.set('port', process.env.PORT || 8081);
 
-const https = require("https");
-const http = require("http");
-
-const projects = require("./projects-data.json");
-
-app.set("port", process.env.PORT || 8081);
-
-app.get("/api/source", (req, res) => {
+app.get('/api/source', (req, res) => {
   try {
     res.send(projects);
   } catch (err) {
-    var errMessage = `${err}`;
+    const errMessage = `${err}`;
     processErrorResponse(res, 500, errMessage);
   }
 });
 
-function processErrorResponse(res, statusCode, message) {
+const processErrorResponse = (res, statusCode, message) => {
   console.log(`${statusCode} ${message}`);
   res.status(statusCode).send({
     error: {
@@ -26,13 +24,13 @@ function processErrorResponse(res, statusCode, message) {
       message: message,
     },
   });
-}
+};
 
-app.listen(app.get("port"), function () {
+app.listen(app.get('port'), function () {
   console.log(
-    "Express app vercel-express-react-demo is running on port",
-    app.get("port")
+    'Express app vercel-express-react-demo is running on port',
+    app.get('port')
   );
 });
 
-module.exports = app;
+export default app;
