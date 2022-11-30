@@ -1,0 +1,5 @@
+{
+  "debug": true,
+  "url": "http://cryptic-meadow-53485.herokuapp.com",
+  "env": "production"
+}

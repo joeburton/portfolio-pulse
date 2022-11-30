@@ -1,15 +1,15 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
-import { useAppContext } from "../store";
+import { useAppContext } from '../store';
 
-import styles from "../css/Login.module.css";
+import styles from '../css/Login.module.css';
 
 const editValidationSchema = Yup.object().shape({
   username: Yup.string().required(),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(6, 'Password must be at least 6 characters')
     .required(),
 });
 
@@ -19,10 +19,10 @@ interface Values {
 }
 
 const handleLogin = async (values: any) => {
-  const response = await fetch("/api/auth", {
-    method: "POST",
+  const response = await fetch('/api/auth', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username: values.username,
@@ -34,10 +34,10 @@ const handleLogin = async (values: any) => {
 };
 
 const handleLogout = async () => {
-  const response = await fetch("/api/logout", {
-    method: "POST",
+  const response = await fetch('/api/logout', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 
@@ -51,12 +51,12 @@ const Login = () => {
   const logout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const result = await handleLogout();
-
-    if (result.Success) {
+    console.log(result);
+    if (result.success) {
       dispatch({
         type: ACTIONS.UPDATE_SESSION,
         payload: {
-          username: "",
+          username: '',
           loggedIn: false,
         },
       });
@@ -64,16 +64,17 @@ const Login = () => {
   };
 
   return (
-    <div className={styles["form-container"]} data-testid="login">
+    <div className={styles['form-container']} data-testid='login'>
       <Formik
         initialValues={{
-          username: "",
-          password: "",
+          username: '',
+          password: '',
         }}
         validationSchema={editValidationSchema}
         onSubmit={async (values: Values) => {
           const result = await handleLogin(values);
-          if (result.Success) {
+          console.log(result);
+          if (result.success) {
             dispatch({
               type: ACTIONS.UPDATE_SESSION,
               payload: {
@@ -98,34 +99,34 @@ const Login = () => {
                 {!userSession.loggedIn && (
                   <>
                     <div
-                      className={styles["form-group"]}
-                      data-testid="username"
+                      className={styles['form-group']}
+                      data-testid='username'
                     >
-                      <label htmlFor="username">Username</label>
-                      <Field name="username" />
+                      <label htmlFor='username'>Username</label>
+                      <Field name='username' />
                       <ErrorMessage
-                        className={styles["error-message"]}
-                        component="div"
-                        name="username"
+                        className={styles['error-message']}
+                        component='div'
+                        name='username'
                       />
                     </div>
                     <div
-                      className={styles["form-group"]}
-                      data-testid="password"
+                      className={styles['form-group']}
+                      data-testid='password'
                     >
-                      <label htmlFor="password">Password</label>
+                      <label htmlFor='password'>Password</label>
                       <Field
-                        type="password"
-                        name="password"
-                        autoComplete="off"
+                        type='password'
+                        name='password'
+                        autoComplete='off'
                       />
                       <ErrorMessage
-                        className={styles["error-message"]}
-                        component="div"
-                        name="password"
+                        className={styles['error-message']}
+                        component='div'
+                        name='password'
                       />
                     </div>
-                    <button type="submit">Login</button>
+                    <button type='submit'>Login</button>
                   </>
                 )}
                 {userSession.loggedIn && (

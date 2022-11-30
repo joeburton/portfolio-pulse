@@ -1,40 +1,40 @@
-import React from "react";
+import React from 'react';
 
-import styles from "../css/ContentExperiments.module.css";
+import styles from '../css/ContentExperiments.module.css';
 
-import { Carousel } from "./experiments/Carousel";
-import { Accordion } from "./experiments/Accordion";
-import { MapList } from "./experiments/MapList";
-import { ComponentList } from "./experiments/SimpleList";
-import { KeyPress } from "./experiments/KeyPress";
-import { useKeyPress } from "../hooks/useKeyPress";
+import { Carousel } from './experiments/Carousel';
+import { Accordion } from './experiments/Accordion';
+import { MapList } from './experiments/MapList';
+import { ComponentList } from './experiments/SimpleList';
+import { KeyPress } from './experiments/KeyPress';
+import { useKeyPress } from '../hooks/useKeyPress';
 
 const rule = {
   background: `url(${process.env.PUBLIC_URL + `../images/line.png`}) repeat-x`,
-  backgroundPosition: "left center",
+  backgroundPosition: 'left center',
 };
 
 const candidates = [
-  { name: "Joe Burton", score: "6 out 10" },
-  { name: "James Brown", score: "9 out 10" },
-  { name: "Ryan Bull", score: "6 out 10" },
+  { name: 'Joe Burton', score: '6 out 10' },
+  { name: 'James Brown', score: '9 out 10' },
+  { name: 'Ryan Bull', score: '6 out 10' },
 ];
 
 const ContentIntro = ({ content }: any) => {
-  const openPress: boolean = useKeyPress("o");
+  const openPress: boolean = useKeyPress('o');
 
   if (!content) {
     return <div />;
   }
 
   const hide = {
-    display: openPress ? "block" : "none",
+    display: openPress ? 'block' : 'none',
   };
 
   return (
     <section
       className={styles.intro}
-      data-testid="contentExperiments"
+      data-testid='contentExperiments'
       style={hide}
     >
       <div className={styles.content}>
@@ -48,13 +48,13 @@ const ContentIntro = ({ content }: any) => {
             <ComponentList candidates={candidates} />
             <Accordion
               items={[
-                { title: "Item 1", description: "something detailed" },
-                { title: "Item 2", description: "something detailed" },
-                { title: "Item 3", description: "something detailed" },
+                { title: 'Item 1', description: 'something detailed' },
+                { title: 'Item 2', description: 'something detailed' },
+                { title: 'Item 3', description: 'something detailed' },
               ]}
             />
 
-            <Carousel
+            {/* <Carousel
               items={[
                 {
                   description: "item 1",
@@ -82,7 +82,7 @@ const ContentIntro = ({ content }: any) => {
                     "https://media.istockphoto.com/photos/chrome-side-mirror-picture-id89356837?k=20&m=89356837&s=612x612&w=0&h=s7nd8Fz2-7_3LNQbYaQtS28jre1ls6OB8_O2kb8gYhY=",
                 },
               ]}
-            />
+            /> */}
           </div>
         </div>
       </div>

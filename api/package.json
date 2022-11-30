@@ -9,11 +9,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "config": "^3.3.8",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-session": "^1.17.3",
+    "mongodb": "^4.12.1"
   },
-  "type": "module",
-  "devDependencies": {
-    "nodemon": "^2.0.20"
-  }
+  "type": "module"
 }

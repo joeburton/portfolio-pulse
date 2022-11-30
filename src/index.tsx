@@ -1,12 +1,12 @@
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 
-import "./css/main.css";
+import './css/main.css';
 
-import App from "./components/App";
-import { AppProvider } from "./store";
-import { DEFAULT_STATE } from "./store";
+import App from './components/App';
+import { AppProvider } from './store';
+import { DEFAULT_STATE } from './store';
 
-const container = document.getElementById("root");
+const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
