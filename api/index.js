@@ -1,32 +1,25 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
-import projects from './projects-data.js';
+import routes from './routes.js';
+import cors from 'cors';
 
 const app = express();
-app.use(bodyParser.json());
+
 app.set('port', process.env.PORT || 8081);
 
-app.get('/api/source', (req, res) => {
-  try {
-    res.send(projects);
-  } catch (err) {
-    const errMessage = `${err}`;
-    processErrorResponse(res, 500, errMessage);
-  }
-});
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors());
 
-const processErrorResponse = (res, statusCode, message) => {
-  console.log(`${statusCode} ${message}`);
-  res.status(statusCode).send({
-    error: {
-      status: statusCode,
-      message: message,
-    },
-  });
-};
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-app.listen(app.get('port'), function () {
+app.use('/api', routes);
+
+app.listen(app.get('port'), () => {
   console.log(
     'Express app vercel-express-react-demo is running on port',
     app.get('port')
