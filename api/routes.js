@@ -1,11 +1,10 @@
 import express from 'express';
 import mongodb from 'mongodb';
-import path from 'path';
-
-const router = express.Router();
 const { ObjectID } = mongodb;
 
-const __dirname = path.resolve();
+const router = express.Router();
+
+// const __dirname = path.resolve();
 
 import mongoUtilities from './mongoUtilities.js';
 import projects from './projects-data.js';
@@ -124,7 +123,7 @@ router.post('/update-item', (req, res) => {
   const item = req.body;
 
   console.log(imageFile.name);
-
+  console.log(item);
   imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
     if (err) {
       return res.status(500).send({ Error: err.toString() });
@@ -132,9 +131,8 @@ router.post('/update-item', (req, res) => {
 
     try {
       const collection = getCollection('items');
-
       collection.updateOne(
-        { _id: item._id },
+        { _id: new ObjectID(item._id) },
         {
           $set: {
             logo: imageFile.name,

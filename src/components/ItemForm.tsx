@@ -24,6 +24,7 @@ const handleUpload = async (values: any, id: string | undefined) => {
     formData.append('_id', id);
   }
 
+  console.log(values.logo);
   formData.append('logo', values.logo);
   formData.append('class', values.class);
   formData.append('role', values.role);
@@ -53,11 +54,11 @@ const ItemForm = (props: { id?: string }) => {
       <Formik
         initialValues={{
           logo: '',
-          class: item.class ? item.class : '',
-          role: item.role ? item.role : '',
-          company: item.company ? item.company : '',
-          skills: item.skills ? item.skills : '',
-          description: item.description ? item.description : '',
+          class: item?.class ? item.class : '',
+          role: item?.role ? item.role : '',
+          company: item?.company ? item.company : '',
+          skills: item?.skills ? item.skills : '',
+          description: item?.description ? item.description : '',
         }}
         validationSchema={editValidationSchema}
         onSubmit={async (values: any, { resetForm }) => {

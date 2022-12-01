@@ -8,6 +8,8 @@ const production = config.env === 'production' ? true : false;
 let url;
 let _db;
 
+console.log(config);
+
 if (production) {
   url = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.dhtvx.mongodb.net/?retryWrites=true&w=majority`;
 } else {
