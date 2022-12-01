@@ -116,55 +116,49 @@ router.post('/delete-item', (req, res) => {
 });
 
 router.post('/update-item', (req, res) => {
-  if (req.session.loggedin) {
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(500).send({ Error: 'No file provided' });
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(500).send({ Error: 'No file provided' });
+  }
+
+  const imageFile = req.files.logo;
+  const item = req.body;
+
+  console.log(imageFile.name);
+
+  imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
+    if (err) {
+      return res.status(500).send({ Error: err.toString() });
     }
 
-    const imageFile = req.files.logo;
-    const item = req.body;
+    try {
+      const collection = getCollection('items');
 
-    console.log(`${__dirname}/build/images/${imageFile.name}`);
-
-    imageFile.mv(`${__dirname}/build/images/${imageFile.name}`, (err) => {
-      if (err) {
-        return res.status(500).send({ Error: err.toString() });
-      }
-
-      try {
-        const collection = getCollection('items');
-
-        collection.updateOne(
-          { _id: new ObjectID(item._id) },
-          {
-            $set: {
-              logo: imageFile.name,
-              role: item.role,
-              company: item.company,
-              description: item.description,
-              skills: item.skills,
-              class: item.class,
-              links: item.links,
-            },
+      collection.updateOne(
+        { _id: item._id },
+        {
+          $set: {
+            logo: imageFile.name,
+            role: item.role,
+            company: item.company,
+            description: item.description,
+            skills: item.skills,
+            class: item.class,
+            links: item.links,
           },
-          () => {
-            collection
-              .find()
-              .sort({ _id: -1 })
-              .toArray((_err, items) => {
-                res.send(JSON.stringify(items));
-              });
-          }
-        );
-      } catch (err) {
-        res.status(500).send({ Error: err.toString() });
-      }
-    });
-  } else {
-    res
-      .status(401)
-      .send({ Error: 'You are not authorised to access here, please login.' });
-  }
+        },
+        () => {
+          collection
+            .find()
+            .sort({ _id: -1 })
+            .toArray((_err, items) => {
+              res.send(JSON.stringify(items));
+            });
+        }
+      );
+    } catch (err) {
+      res.status(500).send({ Error: err.toString() });
+    }
+  });
 });
 
 router.post('/add-item', (req, res) => {
@@ -175,9 +169,9 @@ router.post('/add-item', (req, res) => {
 
     const imageFile = req.files.logo;
 
-    console.log(`${__dirname}/build/images/${imageFile.name}`);
+    console.log(req.body);
 
-    imageFile.mv(`${__dirname}/build/images/${imageFile.name}`, (err) => {
+    imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
       if (err) {
         return res.status(500).send({ Error: err.toString() });
       }

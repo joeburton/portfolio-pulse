@@ -12,8 +12,10 @@
     "config": "^3.3.8",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.4.0",
     "express-session": "^1.17.3",
-    "mongodb": "^4.12.1"
+    "mongodb": "^4.12.1",
+    "path": "^0.12.7"
   },
   "type": "module"
 }
