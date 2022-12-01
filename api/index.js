@@ -26,14 +26,11 @@ app.use(
   })
 );
 
-mongoUtilities.connectToServer(() => {
+mongoUtilities.connectToDatabase(() => {
   app.use('/api', routes);
 
   app.listen(app.get('port'), () => {
-    console.log(
-      'Express app vercel-express-react-demo is running on port',
-      app.get('port')
-    );
+    console.log('App is running on port', app.get('port'));
   });
 });
 
