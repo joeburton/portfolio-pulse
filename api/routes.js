@@ -1,7 +1,6 @@
 import express from 'express';
 import mongodb from 'mongodb';
 const { ObjectID } = mongodb;
-import config from 'config';
 
 const router = express.Router();
 
@@ -14,14 +13,6 @@ const getCollection = (collectionName) => {
 
   return collection;
 };
-
-router.get('/environment', (_req, res) => {
-  try {
-    res.send(JSON.stringify(config.env));
-  } catch (err) {
-    res.status(500).send({ Error: err.toString() });
-  }
-});
 
 router.get('/source', (_req, res) => {
   const collection = getCollection('items');

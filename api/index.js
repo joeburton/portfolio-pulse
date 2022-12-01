@@ -14,6 +14,8 @@ app.use(cors());
 app.use(fileUpload());
 app.use(express.json());
 
+app.use('/api', routes);
+
 app.use(
   express.urlencoded({
     extended: true,
@@ -29,8 +31,6 @@ app.use(
 );
 
 mongoUtilities.connectToDatabase(() => {
-  app.use('/api', routes);
-
   app.listen(app.get('port'), () => {
     console.log('App is running on port', app.get('port'));
   });
