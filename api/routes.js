@@ -4,8 +4,6 @@ const { ObjectID } = mongodb;
 
 const router = express.Router();
 
-// const __dirname = path.resolve();
-
 import mongoUtilities from './mongoUtilities.js';
 import projects from './projects-data.js';
 
@@ -27,7 +25,6 @@ router.get('/source', (_req, res) => {
         res.send(JSON.stringify(items));
       });
   } catch (err) {
-    console.log(err);
     res.status(500).send({ Error: err.toString() });
   }
 });
@@ -79,13 +76,9 @@ router.get('/delete-all-items', (req, res) => {
   if (req.session.loggedin) {
     try {
       const collection = getCollection('items');
-      if (collection.length === undefined) {
-        res.send('No records');
-      } else {
-        collection.drop((_err, result) => {
-          res.send(result);
-        });
-      }
+      collection.drop((_err, result) => {
+        res.send(result);
+      });
     } catch (err) {
       res.status(500).send({ Error: err.toString() });
     }
@@ -122,8 +115,6 @@ router.post('/update-item', (req, res) => {
   const imageFile = req.files.logo;
   const item = req.body;
 
-  console.log(imageFile.name);
-  console.log(item);
   imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
     if (err) {
       return res.status(500).send({ Error: err.toString() });
@@ -166,8 +157,6 @@ router.post('/add-item', (req, res) => {
     }
 
     const imageFile = req.files.logo;
-
-    console.log(req.body);
 
     imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
       if (err) {
