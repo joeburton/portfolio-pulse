@@ -10,13 +10,9 @@ let _db;
 console.log('Mongo DB Name: ', process.env.DB_NAME, process.env.DB_PASSWORD);
 console.log('config: ', config);
 
-/*
 let url = production
   ? `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.dhtvx.mongodb.net/directory?retryWrites=true&w=majority`
   : 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0';
-*/
-
-let url = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.dhtvx.mongodb.net/directory?retryWrites=true&w=majority`;
 
 const mongoUtilities = {
   connectToDatabase(callback) {
