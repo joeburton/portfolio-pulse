@@ -5,7 +5,7 @@ const { MongoClient } = mongodb;
 
 let _db;
 
-const DB_CONNECTION_STRING = process.env.MONGODB || '';
+const DB_CONNECTION_STRING = process.env.MONGODB_URI || '';
 
 const mongoUtilities = {
   connectToDatabase(callback) {
