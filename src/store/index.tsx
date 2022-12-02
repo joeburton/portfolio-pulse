@@ -1,5 +1,5 @@
-import React, { createContext, useReducer, useContext, ReactNode } from "react";
-import { ItemInterface } from "../components/Item";
+import React, { createContext, useReducer, useContext, ReactNode } from 'react';
+import { ItemInterface } from '../components/Item';
 
 interface User {
   username: string;
@@ -18,9 +18,9 @@ export const DEFAULT_STATE: State = {
   content: [],
   items: [],
   manageActive: false,
-  itemToEditId: "",
+  itemToEditId: '',
   userSession: {
-    username: "",
+    username: '',
     loggedIn: false,
   },
 };
@@ -75,7 +75,6 @@ export const AppProvider = (props: {
     props?.defaultState ? props.defaultState : DEFAULT_STATE
   );
 
-  // console.log(state);
   return (
     <Context.Provider value={[state, dispatch]}>
       {props.children}
