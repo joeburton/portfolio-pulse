@@ -14,6 +14,14 @@ const getCollection = (collectionName) => {
   return collection;
 };
 
+router.get('/data', (_req, res) => {
+  try {
+    res.send(JSON.stringify(projects));
+  } catch (err) {
+    res.status(500).send({ Error: err.toString() });
+  }
+});
+
 router.get('/source', (_req, res) => {
   const collection = getCollection('items');
 
