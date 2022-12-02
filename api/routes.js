@@ -18,12 +18,8 @@ router.get('/source', async (_req, res) => {
   const collection = await getCollection('items');
 
   try {
-    collection
-      .find()
-      .sort({ _id: -1 })
-      .toArray((_err, items) => {
-        res.send(JSON.stringify(items));
-      });
+    const result = await collection.find().sort({ _id: -1 }).toArray();
+    res.send(JSON.stringify(result));
   } catch (err) {
     res.status(500).send({ Error: err.toString() });
   }
@@ -34,19 +30,18 @@ router.post('/auth', async (req, res) => {
   const password = req.body.password;
 
   const users = await getCollection('users');
+  const user = await users.findOne({ username: username });
 
-  users.findOne({ username: username }, (_err, user) => {
-    if (user && user.password === password) {
-      req.session.loggedin = true;
-      req.session.username = username;
-      res.send({
-        username: req.session.username,
-        success: 'You are logged in',
-      });
-    } else {
-      res.send({ Error: 'Please enter a valid Username and Password!' });
-    }
-  });
+  if (user && user.password === password) {
+    req.session.loggedin = true;
+    req.session.username = username;
+    res.send({
+      username: req.session.username,
+      success: 'You are logged in',
+    });
+  } else {
+    res.send({ Error: 'Please enter a valid Username and Password!' });
+  }
 });
 
 router.post('/logout', (req, res) => {
@@ -59,9 +54,8 @@ router.get('/populate-database', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const collection = await getCollection('items');
-      collection.insertMany(projects, { ordered: true }, (_err, result) => {
-        res.send(result);
-      });
+      const result = await collection.insertMany(projects, { ordered: true });
+      res.send(result);
     } catch (err) {
       res.status(500).send({ Error: err.toString() });
     }
@@ -76,9 +70,8 @@ router.get('/delete-all-items', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const collection = await getCollection('items');
-      collection.drop((_err, result) => {
-        res.send(result);
-      });
+      const result = await collection.drop();
+      res.send(result);
     } catch (err) {
       res.status(500).send({ Error: err.toString() });
     }
@@ -94,9 +87,8 @@ router.post('/delete-item', async (req, res) => {
     try {
       const collection = await getCollection('items');
       const id = req.body.id;
-      collection.deleteOne({ _id: new ObjectID(id) }).then((response) => {
-        res.send(JSON.stringify(response));
-      });
+      const result = await collection.deleteOne({ _id: new ObjectID(id) });
+      res.send(JSON.stringify(result));
     } catch (err) {
       res.status(500).send({ Error: err.toString() });
     }
