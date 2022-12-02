@@ -3,7 +3,6 @@ import cors from 'cors';
 import session from 'express-session';
 import fileUpload from 'express-fileupload';
 
-// import { connectToDatabase } from './mongoUtilities.js';
 import routes from './routes.js';
 
 const app = express();

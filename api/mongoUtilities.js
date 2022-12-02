@@ -13,8 +13,8 @@ let cachedClient = null;
 let cachedDb = null;
 
 export async function connectToDatabase() {
-  // check the cached.
   if (cachedClient && cachedDb) {
+    console.log('cache exists');
     // load from cache
     return {
       client: cachedClient,
