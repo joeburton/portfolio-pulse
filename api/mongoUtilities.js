@@ -14,7 +14,6 @@ let cachedDb = null;
 
 export async function connectToDatabase() {
   if (cachedClient && cachedDb) {
-    console.log('cache exists');
     // load from cache
     return {
       client: cachedClient,
