@@ -1,31 +1,21 @@
 import express from 'express';
 import mongodb from 'mongodb';
 const { ObjectID } = mongodb;
+import { connectToDatabase } from './mongoUtilities.js';
 
 const router = express.Router();
 
-import mongoUtilities from './mongoUtilities.js';
 import projects from './projects-data.js';
 
-mongoUtilities.connectToDatabase();
-
-const getCollection = (collectionName) => {
-  const db = mongoUtilities.getDb();
+const getCollection = async (collectionName) => {
+  let { db } = await connectToDatabase();
   const collection = db.collection(collectionName);
 
   return collection;
 };
 
-router.get('/data', (_req, res) => {
-  try {
-    res.send(JSON.stringify(projects));
-  } catch (err) {
-    res.status(500).send({ Error: err.toString() });
-  }
-});
-
-router.get('/source', (_req, res) => {
-  const collection = getCollection('items');
+router.get('/source', async (_req, res) => {
+  const collection = await getCollection('items');
 
   try {
     collection
@@ -39,11 +29,11 @@ router.get('/source', (_req, res) => {
   }
 });
 
-router.post('/auth', (req, res) => {
+router.post('/auth', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  const users = getCollection('users');
+  const users = await getCollection('users');
 
   users.findOne({ username: username }, (_err, user) => {
     if (user && user.password === password) {
@@ -59,16 +49,16 @@ router.post('/auth', (req, res) => {
   });
 });
 
-router.post('/logout', function (req, res) {
+router.post('/logout', (req, res) => {
   req.session.loggedin = false;
   req.session.username = '';
   res.send({ success: 'You successfully logged out' });
 });
 
-router.get('/populate-database', (req, res) => {
+router.get('/populate-database', async (req, res) => {
   if (req.session.loggedin) {
     try {
-      const collection = getCollection('items');
+      const collection = await getCollection('items');
       collection.insertMany(projects, { ordered: true }, (_err, result) => {
         res.send(result);
       });
@@ -82,10 +72,10 @@ router.get('/populate-database', (req, res) => {
   }
 });
 
-router.get('/delete-all-items', (req, res) => {
+router.get('/delete-all-items', async (req, res) => {
   if (req.session.loggedin) {
     try {
-      const collection = getCollection('items');
+      const collection = await getCollection('items');
       collection.drop((_err, result) => {
         res.send(result);
       });
@@ -99,10 +89,10 @@ router.get('/delete-all-items', (req, res) => {
   }
 });
 
-router.post('/delete-item', (req, res) => {
+router.post('/delete-item', async (req, res) => {
   if (req.session.loggedin) {
     try {
-      const collection = getCollection('items');
+      const collection = await getCollection('items');
       const id = req.body.id;
       collection.deleteOne({ _id: new ObjectID(id) }).then((response) => {
         res.send(JSON.stringify(response));
@@ -117,7 +107,7 @@ router.post('/delete-item', (req, res) => {
   }
 });
 
-router.post('/update-item', (req, res) => {
+router.post('/update-item', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(500).send({ Error: 'No file provided' });
   }
@@ -125,13 +115,14 @@ router.post('/update-item', (req, res) => {
   const imageFile = req.files.logo;
   const item = req.body;
 
+  const collection = await getCollection('items');
+
   imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
     if (err) {
       return res.status(500).send({ Error: err.toString() });
     }
 
     try {
-      const collection = getCollection('items');
       collection.updateOne(
         { _id: new ObjectID(item._id) },
         {
@@ -160,7 +151,7 @@ router.post('/update-item', (req, res) => {
   });
 });
 
-router.post('/add-item', (req, res) => {
+router.post('/add-item', async (req, res) => {
   if (req.session.loggedin) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(500).send({ Error: 'No file provided' });
@@ -168,13 +159,14 @@ router.post('/add-item', (req, res) => {
 
     const imageFile = req.files.logo;
 
+    const collection = await getCollection('items');
+
     imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
       if (err) {
         return res.status(500).send({ Error: err.toString() });
       }
 
       try {
-        const collection = getCollection('items');
         collection
           .insertOne({
             ...req.body,
@@ -199,10 +191,10 @@ router.post('/add-item', (req, res) => {
   }
 });
 
-router.post('/add-user', (req, res) => {
+router.post('/add-user', async (req, res) => {
   if (req.session.loggedin) {
     try {
-      const collection = getCollection('users');
+      const collection = await getCollection('users');
       collection.insertOne({ ...req.body }).then(() => {
         res.send(JSON.stringify('success'));
       });
@@ -216,10 +208,10 @@ router.post('/add-user', (req, res) => {
   }
 });
 
-router.get('/users', (req, res) => {
+router.get('/users', async (req, res) => {
   if (req.session.loggedin) {
     try {
-      const collection = getCollection('users');
+      const collection = await getCollection('users');
       collection.find().toArray((_err, items) => {
         res.send(JSON.stringify(items));
       });
