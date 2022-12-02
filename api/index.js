@@ -3,7 +3,6 @@ import cors from 'cors';
 import session from 'express-session';
 import fileUpload from 'express-fileupload';
 
-import mongoUtilities from './mongoUtilities.js';
 import routes from './routes.js';
 
 const app = express();
@@ -28,11 +27,9 @@ app.use(
   })
 );
 
-mongoUtilities.connectToDatabase(() => {
-  app.use('/api', routes);
-  app.listen(app.get('port'), () => {
-    console.log('App is running on port', app.get('port'));
-  });
+app.use('/api', routes);
+app.listen(app.get('port'), () => {
+  console.log('App is running on port', app.get('port'));
 });
 
 export default app;

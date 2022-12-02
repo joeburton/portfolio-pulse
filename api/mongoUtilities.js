@@ -8,7 +8,7 @@ let _db;
 const DB_CONNECTION_STRING = process.env.MONGODB_URI || '';
 
 const mongoUtilities = {
-  connectToDatabase(callback) {
+  connectToDatabase() {
     MongoClient.connect(
       DB_CONNECTION_STRING,
       {
@@ -18,7 +18,6 @@ const mongoUtilities = {
       (_err, client) => {
         _db = client.db('directory');
         console.log('MongoDB Connected');
-        callback();
       }
     );
   },

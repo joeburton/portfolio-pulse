@@ -7,6 +7,8 @@ const router = express.Router();
 import mongoUtilities from './mongoUtilities.js';
 import projects from './projects-data.js';
 
+mongoUtilities.connectToDatabase();
+
 const getCollection = (collectionName) => {
   const db = mongoUtilities.getDb();
   const collection = db.collection(collectionName);
