@@ -9,7 +9,7 @@ import projects from './projects-data.js';
 
 const getCollection = async (collectionName) => {
   let { db } = await connectToDatabase();
-  const collection = db.collection(collectionName);
+  const collection = await db.collection(collectionName);
 
   return collection;
 };
