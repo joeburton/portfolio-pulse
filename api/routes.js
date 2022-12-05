@@ -105,47 +105,53 @@ router.post('/delete-item', async (req, res) => {
 });
 
 router.post('/update-item', async (req, res) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(500).send({ Error: 'No file provided' });
-  }
-
-  const imageFile = req.files.logo;
-  const item = req.body;
-
-  const collection = await getCollection('items');
-
-  imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
-    if (err) {
-      return res.status(500).send({ Error: err.toString() });
+  if (req.session.loggedin) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(500).send({ Error: 'No file provided' });
     }
 
-    try {
-      collection.updateOne(
-        { _id: new ObjectID(item._id) },
-        {
-          $set: {
-            logo: imageFile.name,
-            role: item.role,
-            company: item.company,
-            description: item.description,
-            skills: item.skills,
-            class: item.class,
-            links: item.links,
+    const imageFile = req.files.logo;
+    const item = req.body;
+
+    const collection = await getCollection('items');
+
+    imageFile.mv(`../public/images/${imageFile.name}`, (err) => {
+      if (err) {
+        return res.status(500).send({ Error: err.toString() });
+      }
+
+      try {
+        collection.updateOne(
+          { _id: new ObjectID(item._id) },
+          {
+            $set: {
+              logo: imageFile.name,
+              role: item.role,
+              company: item.company,
+              description: item.description,
+              skills: item.skills,
+              class: item.class,
+              links: item.links,
+            },
           },
-        },
-        () => {
-          collection
-            .find()
-            .sort({ _id: -1 })
-            .toArray((_err, items) => {
-              res.send(JSON.stringify(items));
-            });
-        }
-      );
-    } catch (err) {
-      res.status(500).send({ Error: err.toString() });
-    }
-  });
+          () => {
+            collection
+              .find()
+              .sort({ _id: -1 })
+              .toArray((_err, items) => {
+                res.send(JSON.stringify(items));
+              });
+          }
+        );
+      } catch (err) {
+        res.status(500).send({ Error: err.toString() });
+      }
+    });
+  } else {
+    res.status(401).send({
+      Error: 'You are not authorised to access here, please login.',
+    });
+  }
 });
 
 router.post('/add-item', async (req, res) => {
@@ -183,18 +189,19 @@ router.post('/add-item', async (req, res) => {
     });
   } else {
     res.status(401).send({
-      Error: 'You are not authorised to access here, please login. add-item',
+      Error: 'You are not authorised to access here, please login.',
     });
   }
 });
 
-router.post('/add-user', async (req, res) => {
+router.get('/add-user', async (req, res) => {
+  // http://localhost:8081/api/add-user?username=super&password=popinnpow
+  // clearly not secure, just experimenting.
   if (req.session.loggedin) {
     try {
       const collection = await getCollection('users');
-      collection.insertOne({ ...req.body }).then(() => {
-        res.send(JSON.stringify('success'));
-      });
+      const result = await collection.insertOne(req.query);
+      res.send(JSON.stringify(result));
     } catch (err) {
       res.status(500).send({ Error: err.toString() });
     }
@@ -209,9 +216,8 @@ router.get('/users', async (req, res) => {
   if (req.session.loggedin) {
     try {
       const collection = await getCollection('users');
-      collection.find().toArray((_err, items) => {
-        res.send(JSON.stringify(items));
-      });
+      const result = await collection.find().toArray();
+      res.send(JSON.stringify(result));
     } catch (err) {
       res.status(500).send({ Error: err.toString() });
     }
