@@ -82,7 +82,7 @@ router.get('/source', async (_req, res) => {
   }
 });
 
-router.get('/populate-database', sessionChecker, async (_req, res, next) => {
+router.get('/populate-database', sessionChecker, async (_req, res) => {
   try {
     const collection = await getCollection('items');
     const result = await collection.insertMany(projects, { ordered: true });
@@ -92,7 +92,7 @@ router.get('/populate-database', sessionChecker, async (_req, res, next) => {
   }
 });
 
-router.get('/delete-all-items', sessionChecker, async (req, res, next) => {
+router.get('/delete-all-items', sessionChecker, async (req, res) => {
   try {
     const collection = await getCollection('items');
     const result = await collection.drop();
@@ -102,7 +102,7 @@ router.get('/delete-all-items', sessionChecker, async (req, res, next) => {
   }
 });
 
-router.post('/delete-item', sessionChecker, async (req, res, next) => {
+router.post('/delete-item', sessionChecker, async (req, res) => {
   try {
     const collection = await getCollection('items');
     const id = req.body.id;
@@ -113,7 +113,7 @@ router.post('/delete-item', sessionChecker, async (req, res, next) => {
   }
 });
 
-router.post('/update-item', sessionChecker, async (req, res, next) => {
+router.post('/update-item', sessionChecker, async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(500).send({ Error: 'No file provided' });
   }
@@ -157,7 +157,7 @@ router.post('/update-item', sessionChecker, async (req, res, next) => {
   });
 });
 
-router.post('/add-item', sessionChecker, async (req, res, next) => {
+router.post('/add-item', sessionChecker, async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(500).send({ Error: 'No file provided' });
   }
@@ -191,7 +191,7 @@ router.post('/add-item', sessionChecker, async (req, res, next) => {
   });
 });
 
-router.get('/add-user', sessionChecker, async (req, res, next) => {
+router.get('/add-user', sessionChecker, async (req, res) => {
   try {
     const collection = await getCollection('users');
     const result = await collection.insertOne(req.query);
@@ -201,7 +201,7 @@ router.get('/add-user', sessionChecker, async (req, res, next) => {
   }
 });
 
-router.get('/users', sessionChecker, async (req, res, next) => {
+router.get('/users', sessionChecker, async (req, res) => {
   try {
     const collection = await getCollection('users');
     const result = await collection.find().toArray();

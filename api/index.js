@@ -21,6 +21,13 @@ app.use(
   })
 );
 
+const requestLogger = (request, response, next) => {
+  console.log(`${request.method} url:: ${request.url}`);
+  next();
+};
+
+app.use(requestLogger);
+
 const oneDay = 1000 * 60 * 60 * 24;
 
 app.use(
