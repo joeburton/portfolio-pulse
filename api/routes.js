@@ -28,6 +28,18 @@ const sessionChecker = (req, res, next) => {
   }
 };
 
+/*
+const processErrorResponse = (res, statusCode, message) => {
+  console.log(`${statusCode} ${message}`);
+  res.status(statusCode).send({
+    error: {
+      status: statusCode,
+      message: message,
+    },
+  });
+};
+*/
+
 router.post('/auth', async (req, res) => {
   try {
     const username = req.body.username;
@@ -186,8 +198,6 @@ router.post('/add-item', sessionChecker, async (req, res, next) => {
 });
 
 router.get('/add-user', sessionChecker, async (req, res, next) => {
-  // http://localhost:8081/api/add-user?username=super&password=popinnpow
-  // clearly not secure, just experimenting.
   try {
     const collection = await getCollection('users');
     const result = await collection.insertOne(req.query);
@@ -206,15 +216,5 @@ router.get('/users', sessionChecker, async (req, res, next) => {
     res.status(500).send({ Error: err.toString() });
   }
 });
-
-// const processErrorResponse = (res, statusCode, message) => {
-//   console.log(`${statusCode} ${message}`);
-//   res.status(statusCode).send({
-//     error: {
-//       status: statusCode,
-//       message: message,
-//     },
-//   });
-// };
 
 export default router;
