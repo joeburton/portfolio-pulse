@@ -93,18 +93,12 @@ router.get('/populate-database', sessionChecker, async (_req, res, next) => {
 });
 
 router.get('/delete-all-items', sessionChecker, async (req, res, next) => {
-  if (req.session.loggedin) {
-    try {
-      const collection = await getCollection('items');
-      const result = await collection.drop();
-      res.send(result);
-    } catch (err) {
-      res.status(500).send({ Error: err.toString() });
-    }
-  } else {
-    res
-      .status(401)
-      .send({ Error: 'You are not authorised to access here, please login.' });
+  try {
+    const collection = await getCollection('items');
+    const result = await collection.drop();
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ Error: err.toString() });
   }
 });
 
