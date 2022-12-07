@@ -28,18 +28,6 @@ const sessionChecker = (req, res, next) => {
   }
 };
 
-/*
-const processErrorResponse = (res, statusCode, message) => {
-  console.log(`${statusCode} ${message}`);
-  res.status(statusCode).send({
-    error: {
-      status: statusCode,
-      message: message,
-    },
-  });
-};
-*/
-
 router.post('/auth', async (req, res) => {
   try {
     const username = req.body.username;
