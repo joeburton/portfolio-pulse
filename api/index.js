@@ -32,8 +32,8 @@ const oneDay = 1000 * 60 * 60 * 24;
 
 app.use(
   session({
-    name: 'daffyduck',
-    secret: 'topXY_1979Parp',
+    name: process.env.SESSION_NAME,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: oneDay },
